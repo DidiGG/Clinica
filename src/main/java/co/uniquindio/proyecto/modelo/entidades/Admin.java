@@ -1,5 +1,6 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class Admin implements Serializable{
 
     @Id
+    @Column(name = "cedula")
     private String cedula;
     private String email;
     private String contrasena;
