@@ -15,6 +15,8 @@ public class Paciente implements Serializable {
     private String fecha_nacimiento;
     private String tipo_sangre;
 
+    private String genero;
+
     public Paciente() {
         super();
     }
@@ -57,6 +59,14 @@ public class Paciente implements Serializable {
 
     public void setTipo_sangre(String tipo_sangre) {
         this.tipo_sangre = tipo_sangre;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 
     @Override

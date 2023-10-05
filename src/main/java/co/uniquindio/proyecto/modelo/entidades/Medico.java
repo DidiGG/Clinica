@@ -7,15 +7,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Medico implements Serializable{
+public class Medico implements Serializable {
 
     @Id
     private String cedula_medico;
     private String email;
     private String contrasena;
-    private String horario_atencion;
+    private String consultorio;
 
-    public Medico(){
+    public Medico() {
         super();
     }
 
@@ -44,11 +44,11 @@ public class Medico implements Serializable{
     }
 
     public String getHorario_atencion() {
-        return horario_atencion;
+        return consultorio;
     }
 
     public void setHorario_atencion(String horario_atencion) {
-        this.horario_atencion = horario_atencion;
+        this.consultorio = horario_atencion;
     }
 
     @Override

@@ -11,7 +11,7 @@ public class Especializacion implements Serializable {
 
     @Id
     private String id_especializacion;
-    private String nombre;
+    private String titulo;
 
     public Especializacion() {
         super();
@@ -25,12 +25,12 @@ public class Especializacion implements Serializable {
         this.id_especializacion = id_especializacion;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Especializacion implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Especializacion that = (Especializacion) o;
-        return Objects.equals(id_especializacion, that.id_especializacion) && Objects.equals(nombre, that.nombre);
+        return Objects.equals(id_especializacion, that.id_especializacion);
     }
 
     @Override

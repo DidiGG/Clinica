@@ -13,8 +13,9 @@ public class Cita implements Serializable {
     private String codigo_cita;
     private String fecha_creacion;
     private String fechac_cita;
-    private String hor_cita;
+    private String hora_cita;
     private String motivo_consulta;
+    private String estado_cita;
 
 
     public Cita() {
@@ -46,12 +47,12 @@ public class Cita implements Serializable {
         this.fechac_cita = fechac_cita;
     }
 
-    public String getHor_cita() {
-        return hor_cita;
+    public String getHora_cita() {
+        return hora_cita;
     }
 
-    public void setHor_cita(String hor_cita) {
-        this.hor_cita = hor_cita;
+    public void setHora_cita(String hor_cita) {
+        this.hora_cita = hor_cita;
     }
 
     public String getMotivo_consulta() {
@@ -60,6 +61,14 @@ public class Cita implements Serializable {
 
     public void setMotivo_consulta(String motivo_consulta) {
         this.motivo_consulta = motivo_consulta;
+    }
+
+    public String getEstado_cita() {
+        return estado_cita;
+    }
+
+    public void setEstado_cita(String estado_cita) {
+        this.estado_cita = estado_cita;
     }
 
     @Override

@@ -7,15 +7,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Departamento implements Serializable{
+public class Departamento implements Serializable {
 
     @Id
     private String id_departamento;
     private String nombre;
 
-   public Departamento(){
-       super();
-   }
+    public Departamento() {
+        super();
+    }
 
     public String getId_departamento() {
         return id_departamento;

@@ -13,7 +13,7 @@ public class Ciudad implements Serializable {
     private String id_ciudad;
     private String nombre;
 
-    public Ciudad(){
+    public Ciudad() {
         super();
     }
 

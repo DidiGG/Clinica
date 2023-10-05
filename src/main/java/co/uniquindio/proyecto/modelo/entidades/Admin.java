@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Admin implements Serializable{
+public class Admin implements Serializable {
 
     @Id
     @Column(name = "cedula")
@@ -16,7 +16,7 @@ public class Admin implements Serializable{
     private String email;
     private String contrasena;
 
-    public Admin(){
+    public Admin() {
         super();
     }
 
