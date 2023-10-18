@@ -14,7 +14,7 @@ public class Admin implements Serializable {
     @Column(name = "cedula")
     private String cedula;
     private String email;
-    private String contrasena;
+    private String contrasenia;
 
     public Admin() {
         super();
@@ -36,12 +36,12 @@ public class Admin implements Serializable {
         this.email = email;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setContrasenia(String contrasena) {
+        this.contrasenia = contrasena;
     }
 
     @Override
