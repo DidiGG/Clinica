@@ -1,7 +1,7 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,11 +9,37 @@ import java.util.Objects;
 @Entity
 public class Pqrs implements Serializable {
 
+    @OneToOne(mappedBy = "pqrs")
+    private Accion accion;
+
+    @ManyToOne
+    private Admin admin;
+
+    @ManyToOne
+    private Cita cita;
+
+    @ManyToOne
+    private Medico medico;
+
     @Id
+    @NotNull
+    @Column(name = "radicado", unique = true, updatable = false, length = 15)
     private String radicado;
+
+    @NotNull
+    @Column(name = "titulo", unique = true, updatable = false, length = 30)
     private String titulo;
+
+    @NotNull
+    @Column(name = "contenido", unique = true, updatable = false, length = 100)
     private String contenido;
+
+    @NotNull
+    @Column(name = "fecha_creacion", unique = true, updatable = false, length = 15)
     private String fecha_creacion;
+
+
+    @Column(name = "respuesta_peticion", unique = true, updatable = false, length = 100)
     private String respuesta_peticion;
 
     public Pqrs() {

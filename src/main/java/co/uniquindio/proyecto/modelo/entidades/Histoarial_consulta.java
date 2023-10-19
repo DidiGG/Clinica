@@ -1,7 +1,7 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,11 +9,31 @@ import java.util.Objects;
 @Entity
 public class Histoarial_consulta implements Serializable {
 
+    @OneToOne
+    private Cita cita;
+
+    @OneToOne
+    private Paciente paciente;
+
+    @ManyToOne
+    private  Medico medico;
+
     @Id
+    @NotNull
+    @Column(name = "id_historial", unique = true, updatable = false, length = 15)
     private String id_historial;
+
+    @NotNull
+    @Column(name = "sintomas", unique = true, updatable = true, length = 100)
     private String sintomas;
+
+    @Column(name = "notas_medico", unique = false, updatable = true, length = 100)
     private String notas_medico;
+
+    @Column(name = "diagnotico", unique = false, updatable = true, length = 100)
     private String diagnostico;
+
+    @Column(name = "tratamiento", unique = false, updatable = true, length = 100)
     private String tratamiento;
 
     public Histoarial_consulta() {

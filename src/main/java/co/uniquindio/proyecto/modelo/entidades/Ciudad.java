@@ -1,7 +1,7 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,8 +9,22 @@ import java.util.Objects;
 @Entity
 public class Ciudad implements Serializable {
 
+    @OneToOne
+    private Medico medico;
+
+    @OneToOne
+    private Paciente paciente;
+
+    @ManyToOne
+    private Departamento departamento;
+
     @Id
+    @NotNull
+    @Column(name = "id_ciudad", unique = true, updatable = false, length = 15)
     private String id_ciudad;
+
+    @NotNull
+    @Column(name = "nombre", unique = true, updatable = true, length = 20)
     private String nombre;
 
     public Ciudad() {

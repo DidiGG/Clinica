@@ -1,19 +1,32 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Admin implements Serializable {
 
+    @OneToMany(mappedBy = "admin")
+    private List<Pqrs> pqrs;
+
+    @OneToOne
+    private Usuario usuario;
+
     @Id
-    @Column(name = "cedula")
+    @NotNull
+    @Column(name = "cedula", unique = true, updatable = false, length = 15)
     private String cedula;
+
+    @NotNull
+    @Column(name = "email", unique = true, updatable = true, length = 30)
     private String email;
+
+    @NotNull
+    @Column(name = "contrasenia", unique = true, updatable = true, length = 30)
     private String contrasenia;
 
     public Admin() {

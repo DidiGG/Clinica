@@ -1,16 +1,28 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Departamento implements Serializable {
 
+    @OneToMany(mappedBy = "departamento")
+    private List<Ciudad> ciudads;
+
     @Id
+    @NotNull
+    @Column(name = "id_departamento", unique = true, updatable = false, length = 15)
     private String id_departamento;
+
+    @NotNull
+    @Column(name = "nombre", unique = true, updatable = true, length = 20)
     private String nombre;
 
     public Departamento() {

@@ -1,20 +1,53 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Cita implements Serializable {
 
+    @OneToMany(mappedBy = "cita")
+    private List<Pqrs> pqrs;
+
+    @OneToOne(mappedBy = "cita")
+    private Especializacion especializacion;
+
+    @ManyToOne
+    private Medico medico;
+
+    @ManyToOne
+    private Paciente paciente;
+
+    @OneToOne(mappedBy = "cita")
+    private Histoarial_consulta histoarialConsulta;
+
     @Id
+    @NotNull
+    @Column(name = "codigo_cita", unique = true, updatable = false, length = 15)
     private String codigo_cita;
+
+    @NotNull
+    @Column(name = "fecha_creacion", unique = true, updatable = false, length = 20)
     private String fecha_creacion;
+
+    @NotNull
+    @Column(name = "fecha_cita", unique = true, updatable = false, length = 20)
     private String fechac_cita;
+
+    @NotNull
+    @Column(name = "hora_cita", unique = true, updatable = false, length = 15)
     private String hora_cita;
+
+    @NotNull
+    @Column(name = "motivo_consulta", unique = true, updatable = true, length = 15)
     private String motivo_consulta;
+
+    @NotNull
+    @Column(name = "estado_consulta", unique = true, updatable = true, length = 30)
     private String estado_cita;
 
 

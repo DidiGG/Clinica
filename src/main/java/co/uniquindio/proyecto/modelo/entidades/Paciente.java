@@ -1,20 +1,60 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Entity
 public class Paciente implements Serializable {
+
+    @OneToMany(mappedBy = "paciente")
+    private List<Cita> citas;
+
+    @ManyToOne
+    private Usuario usuario;
+
+    @OneToOne(mappedBy = "paciente")
+    private Ciudad ciudad;
+
+    @OneToOne(mappedBy = "paciente")
+    private Histoarial_consulta  histoarialConsulta;
+
+    @ManyToOne
+    private Eps eps;
+
+    @OneToMany(mappedBy = "paciente")
+    private List<Alergia> alergias;
+
+
     @Id
+    @NotNull
+    @Column(name = "cedula_paciente", unique = true, updatable = false, length = 15)
     private String cedula_paciente;
-    private String correo;
-    private String contrasena;
+
+    @NotNull
+    @Email
+    @Column(name = "email", unique = true, updatable = true, length = 50)
+    private String email;
+
+    @NotNull
+    @Column(name = "contrasenia", unique = true, updatable = true, length = 50)
+    private String contrasenia;
+
+    @NotNull
+    @Column(name = "fecha_nacimiento", unique = true, updatable = false, length = 20)
     private String fecha_nacimiento;
+
+    @NotNull
+    @Column(name = " tipo_sangre", unique = true, updatable = false, length = 10)
     private String tipo_sangre;
 
+    @NotNull
+    @Column(name = "genero", unique = true, updatable = false, length = 10)
     private String genero;
 
     public Paciente() {
@@ -29,20 +69,20 @@ public class Paciente implements Serializable {
         this.cedula_paciente = cedula_paciente;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setEmail(String correo) {
+        this.email = correo;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setContrasenia(String contrasena) {
+        this.contrasenia = contrasena;
     }
 
     public String getFecha_nacimiento() {
