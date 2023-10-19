@@ -1,7 +1,9 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,7 +12,12 @@ import java.util.Objects;
 public class Eps implements Serializable {
 
     @Id
+    @NotNull
+    @Column(name = "id_eps", unique = true, updatable = false, length = 15)
     private String id_eps;
+
+    @NotNull
+    @Column(name = "nombre", unique = true, updatable = true, length = 15)
     private String nombre;
 
     public Eps() {

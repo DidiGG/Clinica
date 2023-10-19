@@ -2,8 +2,10 @@ package co.uniquindio.proyecto.modelo.entidades;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -11,8 +13,12 @@ import java.util.Objects;
 public class Horario_atencion implements Serializable {
 
     @Id
+    @NotNull
+    @Column(name = "id_horario", unique = true, updatable = false, length = 15)
     private String id_horario;
 
+    @NotNull
+    @Column(name = "horario_atencion", unique = true, updatable = false, length = 15)
     private String horario_atencion;
 
     public Horario_atencion() {

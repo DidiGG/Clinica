@@ -1,7 +1,9 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,11 +12,28 @@ import java.util.Objects;
 public class Cita implements Serializable {
 
     @Id
+    @NotNull
+    @Column(name = "codigo_cita", unique = true, updatable = false, length = 15)
     private String codigo_cita;
+
+    @NotNull
+    @Column(name = "fecha_creacion", unique = true, updatable = false, length = 20)
     private String fecha_creacion;
+
+    @NotNull
+    @Column(name = "fecha_cita", unique = true, updatable = false, length = 20)
     private String fechac_cita;
+
+    @NotNull
+    @Column(name = "hora_cita", unique = true, updatable = false, length = 15)
     private String hora_cita;
+
+    @NotNull
+    @Column(name = "motivo_consulta", unique = true, updatable = true, length = 15)
     private String motivo_consulta;
+
+    @NotNull
+    @Column(name = "estado_consulta", unique = true, updatable = true, length = 30)
     private String estado_cita;
 
 

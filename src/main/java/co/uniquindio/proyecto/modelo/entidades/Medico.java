@@ -1,7 +1,10 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,9 +13,21 @@ import java.util.Objects;
 public class Medico implements Serializable {
 
     @Id
+    @NotNull
+    @Column(name = "cedula_medico", unique = true, updatable = false, length = 15)
     private String cedula_medico;
+
+    @NotNull
+    @Email
+    @Column(name = "email", unique = true, updatable = true, length = 50)
     private String email;
+
+    @NotNull
+    @Column(name = "contrasenia", unique = true, updatable = true, length = 50)
     private String contrasena;
+
+    @NotNull
+    @Column(name = "consultorio", unique = true, updatable = true, length = 10)
     private String consultorio;
 
     public Medico() {
