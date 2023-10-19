@@ -3,6 +3,7 @@ package co.uniquindio.proyecto.modelo.entidades;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serial;
@@ -11,6 +12,9 @@ import java.util.Objects;
 
 @Entity
 public class Accion implements Serializable {
+
+    @OneToOne
+    private Pqrs pqrs;
 
     @Id
     @NotNull

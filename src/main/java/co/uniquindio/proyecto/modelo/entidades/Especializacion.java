@@ -1,8 +1,6 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -10,6 +8,12 @@ import java.util.Objects;
 
 @Entity
 public class Especializacion implements Serializable {
+
+    @OneToOne
+    private Cita cita;
+
+    @ManyToOne
+    private Medico medico;
 
     @Id
     @NotNull

@@ -1,16 +1,36 @@
 package co.uniquindio.proyecto.modelo.entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Medico implements Serializable {
+
+    @OneToMany(mappedBy = "medico")
+    private List<Pqrs> pqrs;
+
+    @OneToMany(mappedBy = "medico")
+    private List<Cita> citas;
+
+    @OneToMany(mappedBy = "medico")
+    private List<Especializacion> especializaciones;
+
+    @OneToOne(mappedBy = "medico")
+    private Horario_atencion horarioAtencion;
+
+    @OneToOne(mappedBy = "medico")
+    private Ciudad ciudad;
+
+    @ManyToOne
+    private Usuario usuario;
+
+    @OneToMany(mappedBy = "medico")
+    private List<Histoarial_consulta> histoarialConsultas;
 
     @Id
     @NotNull

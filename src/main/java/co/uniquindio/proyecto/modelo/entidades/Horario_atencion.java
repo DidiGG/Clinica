@@ -5,12 +5,16 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
 @Entity
 public class Horario_atencion implements Serializable {
+
+    @OneToOne
+    private Medico medico;
 
     @Id
     @NotNull
