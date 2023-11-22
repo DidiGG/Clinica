@@ -27,11 +27,11 @@ public class UserController {
 
             if(userInfo.getRol().equalsIgnoreCase("PACIENTE")){
                 userServiceImpl.registerUserPatient(userInfo);
-                return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, true,null,"paciente" ));
+                return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, true,null,"Paciente registrado exitosamente" ));
 
             }else{
                 userServiceImpl.registerUserMedic(userInfo);
-                return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, true,null,"medico" ));
+                return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, true,null,"Medico registrado exitosamente" ));
 
             }
 
