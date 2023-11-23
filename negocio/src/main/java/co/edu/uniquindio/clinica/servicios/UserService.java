@@ -1,9 +1,6 @@
 package co.edu.uniquindio.clinica.servicios;
 
-import co.edu.uniquindio.clinica.dto.LoginRequestDTO;
-import co.edu.uniquindio.clinica.dto.LoginResponseDTO;
-import co.edu.uniquindio.clinica.dto.MedicAppointmentDTO;
-import co.edu.uniquindio.clinica.dto.UserRegisterRequestDTO;
+import co.edu.uniquindio.clinica.dto.*;
 import co.edu.uniquindio.clinica.entidades.User;
 
 import java.util.List;
@@ -22,4 +19,6 @@ public interface UserService {
     List<User> listUsers() throws Exception;
 
     LoginResponseDTO login(LoginRequestDTO loginInfo) throws Exception;
+
+    void createPatientAppointment(PatientCreateAppointmentRequestDTO appointmentInfo, String email)throws Exception;
 }

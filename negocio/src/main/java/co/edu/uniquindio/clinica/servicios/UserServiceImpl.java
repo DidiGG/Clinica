@@ -13,6 +13,10 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserRepo userRepo;
+    private final AppointmentRepo appointmentRepo;
+
+    private final SpecializationRepo specializationRepo;
+
     private final AllergyRepo allergyRepo;
     private final EpsRepo epsRepo;
 
@@ -22,8 +26,10 @@ public class UserServiceImpl implements UserService{
     private  MailServiceImpl mailService;
 
 
-    public UserServiceImpl(UserRepo userRepo, AllergyRepo allergyRepo, EpsRepo epsRepo, LevelAccessRepo levelAccessRepo, ProfileRepo profileRepo, MailServiceImpl mailService) {
+    public UserServiceImpl(UserRepo userRepo, AppointmentRepo appointmentRepo, SpecializationRepo specializationRepo, AllergyRepo allergyRepo, EpsRepo epsRepo, LevelAccessRepo levelAccessRepo, ProfileRepo profileRepo, MailServiceImpl mailService) {
         this.userRepo = userRepo;
+        this.appointmentRepo = appointmentRepo;
+        this.specializationRepo = specializationRepo;
         this.allergyRepo = allergyRepo;
         this.epsRepo = epsRepo;
         this.levelAccessRepo = levelAccessRepo;
@@ -229,6 +235,48 @@ public class UserServiceImpl implements UserService{
 
         return responseDTO;
     }
+
+    @Override
+    public void createPatientAppointment(PatientCreateAppointmentRequestDTO appointmentInfo, String email)throws Exception {
+
+        Optional<User> userOptional = userRepo.findByEmail(email);
+        Optional<User> medicOptional = userRepo.findById(appointmentInfo.getMedicId());
+        Profile patient = null;
+        Profile medic = null;
+        Cita appointment = null;
+
+        if (userOptional.isEmpty())
+            throw new Exception("usuario no encontrado");
+        if(medicOptional.isEmpty())
+            throw new Exception("médico no encontrado");
+
+        patient = userOptional.get().getProfile();
+        medic = medicOptional.get().getProfile();
+        appointment = generateAppointment(appointmentInfo,patient,medic);
+        appointmentRepo.save(appointment);
+    }
+
+    private Cita generateAppointment(PatientCreateAppointmentRequestDTO appointmentInfo, Profile patient, Profile medic) {
+        Cita appointment = new Cita();
+        Optional<Especializacion> specializacionOptional = specializationRepo.findById(appointmentInfo.getSpecialization());
+
+        if (specializacionOptional.isPresent())
+            appointment.setEspecializacion(specializacionOptional.get());
+
+        appointment.setMedico(medic);
+        appointment.setPaciente(patient);
+
+        appointment.setEstado_cita("PENDIENTE");
+        appointment.setFecha_creacion("2023-11-23");
+        appointment.setFechac_cita(appointmentInfo.getAppointment_date());
+        appointment.setHora_cita(appointmentInfo.getHour());
+        appointment.setMotivo_consulta(appointmentInfo.getReason());
+
+
+        return appointment;
+
+    }
+
     public void validateUserRegisterDTO(UserRegisterRequestDTO userRegister) throws Exception {
         Optional<User> searched = userRepo.findByEmail(userRegister.getEmail());
         if (searched.isPresent()){

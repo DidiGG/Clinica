@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface ProfileRepo extends JpaRepository<Profile, Integer> {
 
     Optional<Profile> findByIdNumber(String idNumber);
+    Optional<Profile> findById(Integer id);
     Page<Profile> findAll(Pageable pageable);
     Integer countProfileByIdNumber(String idNumber);
 }

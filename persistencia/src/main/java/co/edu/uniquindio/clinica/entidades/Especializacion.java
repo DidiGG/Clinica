@@ -20,8 +20,9 @@ public class Especializacion implements Serializable {
     private List<Profile> medico;
 
     @Id
-    @Column(name = "id_especializacion", length = 15)
-    private String id_especializacion;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @Column(name = "titulo",length = 20)
     private String titulo;
@@ -31,11 +32,11 @@ public class Especializacion implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Especializacion that = (Especializacion) o;
-        return Objects.equals(id_especializacion, that.id_especializacion);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_especializacion);
+        return Objects.hash(id);
     }
 }
