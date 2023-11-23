@@ -23,6 +23,7 @@ public class AppointmentController {
     //private final MicroSiteServiceImpl micrositeServiceImpl;
 
 
+    @PreAuthorize("hasRole('ROLE_MEDICO')")
     @GetMapping("/getAll")
     public ResponseEntity<MessageDTO> getAllBill(HttpServletRequest request)  throws Exception{
         try{
@@ -57,6 +58,7 @@ public class AppointmentController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_MEDICO')")
     @GetMapping("/patient/getAll")
     public ResponseEntity<MessageDTO> getPatientAppointments(HttpServletRequest request)  throws Exception{
         try{
