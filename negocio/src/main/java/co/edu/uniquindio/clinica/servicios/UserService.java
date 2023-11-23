@@ -11,6 +11,8 @@ public interface UserService {
     Boolean registerUserMedic(UserRegisterRequestDTO newUserInfo) throws Exception;
     List<MedicAppointmentDTO> getAllMedicAppointmentsByEmail(String email) throws Exception;
 
+    List<PatientAppointmentDTO> getAllPatientAppointmentsByEmail(String email) throws Exception;
+
 
     User updateUser(User u) throws Exception;
 

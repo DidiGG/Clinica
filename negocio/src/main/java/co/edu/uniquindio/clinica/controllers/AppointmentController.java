@@ -40,7 +40,6 @@ public class AppointmentController {
         }
     }
     @PreAuthorize("hasRole('ROLE_PACIENTE')")
-
     @PostMapping("/patient/create")
     public ResponseEntity<MessageDTO> login(@Valid @RequestBody PatientCreateAppointmentRequestDTO appointmentInfo,HttpServletRequest request){
         try {
@@ -50,11 +49,28 @@ public class AppointmentController {
 
             String email = TokenUtils.getEmailFromJWTToken(jwtToken);
             userServiceImpl.createPatientAppointment(appointmentInfo,email);
-            return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, true,"creacion de la cita completa",email ));
+            return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, true,"creacion de la cita completa",null ));
 
         } catch (Exception e) {
             return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, false,"Ocurrió un error\n"+e.getMessage(),null ));
         }
 
+    }
+
+    @GetMapping("/patient/getAll")
+    public ResponseEntity<MessageDTO> getPatientAppointments(HttpServletRequest request)  throws Exception{
+        try{
+            String authorizationHeader = request.getHeader("Authorization");
+
+            String jwtToken = authorizationHeader.substring(7); // eliminamos el prefijo "Bearer "
+
+            String email = TokenUtils.getEmailFromJWTToken(jwtToken);
+            List<PatientAppointmentDTO> citaList = userServiceImpl.getAllPatientAppointmentsByEmail(email);
+
+            return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, true,"Obtencion de citas completa",citaList ));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(200).body( new MessageDTO(HttpStatus.OK, false,"Ocurrió un error",e.getMessage() ));
+        }
     }
 }

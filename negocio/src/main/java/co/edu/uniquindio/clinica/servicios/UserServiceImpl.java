@@ -148,6 +148,38 @@ public class UserServiceImpl implements UserService{
         return appointmentList;
     }
 
+    @Override
+    public List<PatientAppointmentDTO> getAllPatientAppointmentsByEmail(String email) throws Exception {
+
+        List<PatientAppointmentDTO> appointmentList =  new ArrayList<>();
+        Optional<User> patientOptional = userRepo.findByEmail(email);
+
+        if(patientOptional.isEmpty()){
+            throw  new Exception("Médico no encontrado");
+        }
+        Profile patient = patientOptional.get().getProfile();
+
+        List<Cita> cites = patient.getCitaAsPacienteList();
+        for (Cita cita:cites) {
+            PatientAppointmentDTO appointmentItem = new PatientAppointmentDTO();
+            String specializationName = cita.getEspecializacion().getTitulo();
+
+            Profile medic = cita.getMedico();
+            String epsName = patient.getEps().getNombre();
+            CitaBasicInfo citaBasicInfo = generateCitaBasicInfo(cita);
+
+            appointmentItem.setAppointmentInfo(citaBasicInfo);
+            appointmentItem.setEspecialization(specializationName);
+            appointmentItem.setEpsName(epsName);
+            appointmentItem.setMedicName(medic.getNames()+" "+medic.getLastNames());
+            appointmentItem.setConsultingRoom(medic.getConsulting_room());
+
+            appointmentList.add(appointmentItem);
+
+        }
+        return appointmentList;
+    }
+
     private CitaBasicInfo generateCitaBasicInfo(Cita cita) {
         CitaBasicInfo citaBasicInfo = new CitaBasicInfo();
 
