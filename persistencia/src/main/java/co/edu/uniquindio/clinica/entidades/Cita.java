@@ -16,8 +16,9 @@ import java.util.Objects;
 public class Cita implements Serializable {
 
     @Id
-    @Column(name = "codigo_cita", length = 15)
-    private String codigo_cita;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @Column(name = "fecha_creacion",length = 20)
     private String fecha_creacion;
@@ -28,7 +29,7 @@ public class Cita implements Serializable {
     @Column(name = "hora_cita", length = 15)
     private String hora_cita;
 
-    @Column(name = "motivo_consulta", length = 15)
+    @Column(name = "motivo_consulta")
     private String motivo_consulta;
 
     @Column(name = "estado_consulta", length = 30)
@@ -39,12 +40,12 @@ public class Cita implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cita cita = (Cita) o;
-        return Objects.equals(codigo_cita, cita.codigo_cita);
+        return Objects.equals(id, cita.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codigo_cita);
+        return Objects.hash(id);
     }
     @OneToMany(mappedBy = "cita")
     private List<Pqrs> pqrs;

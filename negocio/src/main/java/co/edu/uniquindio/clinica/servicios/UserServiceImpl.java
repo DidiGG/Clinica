@@ -1,16 +1,11 @@
 package co.edu.uniquindio.clinica.servicios;
 
-import co.edu.uniquindio.clinica.dto.LoginRequestDTO;
-import co.edu.uniquindio.clinica.dto.LoginResponseDTO;
-import co.edu.uniquindio.clinica.dto.UserRegisterRequestDTO;
-import co.edu.uniquindio.clinica.entidades.LevelAccess;
-import co.edu.uniquindio.clinica.entidades.Profile;
-import co.edu.uniquindio.clinica.entidades.User;
-import co.edu.uniquindio.clinica.repo.LevelAccessRepo;
-import co.edu.uniquindio.clinica.repo.ProfileRepo;
-import co.edu.uniquindio.clinica.repo.UserRepo;
+import co.edu.uniquindio.clinica.dto.*;
+import co.edu.uniquindio.clinica.entidades.*;
+import co.edu.uniquindio.clinica.repo.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +13,19 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserRepo userRepo;
+    private final AllergyRepo allergyRepo;
+    private final EpsRepo epsRepo;
+
     private final ProfileRepo profileRepo;
 
     private final LevelAccessRepo levelAccessRepo;
     private  MailServiceImpl mailService;
 
 
-    public UserServiceImpl(UserRepo userRepo, LevelAccessRepo levelAccessRepo,ProfileRepo profileRepo, MailServiceImpl mailService) {
+    public UserServiceImpl(UserRepo userRepo, AllergyRepo allergyRepo, EpsRepo epsRepo, LevelAccessRepo levelAccessRepo, ProfileRepo profileRepo, MailServiceImpl mailService) {
         this.userRepo = userRepo;
+        this.allergyRepo = allergyRepo;
+        this.epsRepo = epsRepo;
         this.levelAccessRepo = levelAccessRepo;
         this.profileRepo = profileRepo;
         this.mailService = mailService;
@@ -62,18 +62,26 @@ public class UserServiceImpl implements UserService{
     @Override
     public Boolean registerUserPatient(UserRegisterRequestDTO patientInfo) throws Exception {
         validateRegisterPatientInfo(patientInfo);
+        ArrayList<Alergia> allergiesList = new ArrayList<>();
         User user = generateUser(patientInfo);
         userRepo.save(user);
         Profile profile = generateProfile(patientInfo,user);
-        profile.setBirth_date(patientInfo.getBirth());
+
+        Integer[] allergies = patientInfo.getAllergies();
+            for (Integer idAllergie:allergies
+            ) {
+                Optional<Alergia> allergy = allergyRepo.findById(idAllergie);
+                if(allergy.isPresent()){
+                    allergiesList.add(allergy.get());
+                }
+            }
+        profile.setAlergiaList(allergiesList);
         profileRepo.save(profile);
         return true;
     }
 
     private void validateRegisterPatientInfo(UserRegisterRequestDTO patientInfo) throws Exception {
         validBasicUserInfo(patientInfo);
-        if (patientInfo.getBirth() == null)
-            throw  new Exception("Debe ingresar una fecha de nacimiento");
     }
 
     private void validBasicUserInfo(UserRegisterRequestDTO basicUserInfo) throws Exception {
@@ -104,9 +112,67 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
+    @Override
+    public List<MedicAppointmentDTO> getAllMedicAppointmentsByEmail(String email) throws Exception {
+        List<MedicAppointmentDTO> appointmentList =  new ArrayList<>();
+        Optional<User> medicOptional = userRepo.findByEmail(email);
+
+        if(medicOptional.isEmpty()){
+            throw  new Exception("Médico no encontrado");
+        }
+        User medic = medicOptional.get();
+
+        List<Cita> cites = medic.getProfile().getCitaAsMedicoList();
+        for (Cita cita:cites) {
+            MedicAppointmentDTO appointmentItem = new MedicAppointmentDTO();
+            String specializationName = cita.getEspecializacion().getTitulo();
+            Profile patient = cita.getPaciente();
+            ClientBasicInfoDTO patientInfo = generatePatientInfoDTO(patient);
+            CitaBasicInfo citaBasicInfo = generateCitaBasicInfo(cita);
+            String epsName = patient.getEps().getNombre();
+
+            appointmentItem.setAppointmentInfo(citaBasicInfo);
+            appointmentItem.setEspecialization(specializationName);
+            appointmentItem.setEpsName(epsName);
+            appointmentItem.setPatientInfo(patientInfo);
+
+            appointmentList.add(appointmentItem);
+
+        }
+        return appointmentList;
+    }
+
+    private CitaBasicInfo generateCitaBasicInfo(Cita cita) {
+        CitaBasicInfo citaBasicInfo = new CitaBasicInfo();
+
+        citaBasicInfo.setHour(cita.getHora_cita());
+        citaBasicInfo.setState(cita.getEstado_cita());
+        citaBasicInfo.setReason(cita.getMotivo_consulta());
+        citaBasicInfo.setAppointment_date(cita.getFechac_cita());
+        citaBasicInfo.setCreated_at(cita.getFecha_creacion());
+
+        return citaBasicInfo;
+    }
+
+    private ClientBasicInfoDTO generatePatientInfoDTO(Profile patient) {
+        ClientBasicInfoDTO clientBasicInfoDTO = new ClientBasicInfoDTO();
+        ArrayList<String> allergies = new ArrayList<>();
+        clientBasicInfoDTO.setName(patient.getNames() + " "+patient.getLastNames());
+        clientBasicInfoDTO.setGender(patient.getGender());
+        for (Alergia allergy:patient.getAlergiaList()
+             ) {
+            allergies.add(allergy.getNombre_alergia());
+        }
+        clientBasicInfoDTO.setAlergiesNames(allergies);
+        return clientBasicInfoDTO;
+    }
+
     private Profile generateProfile(UserRegisterRequestDTO profileInfo,User user) {
-        System.out.println(profileInfo.getPhoneNumber());
         Profile profile = new Profile();
+        Optional<Eps> eps = epsRepo.findById(profileInfo.getEps());
+        if(eps.isPresent()){
+            profile.setEps(eps.get());
+        }
         profile.setGender(profileInfo.getGender());
         profile.setIdNumber(profileInfo.getIdNumber());
         profile.setLastNames(profileInfo.getLastNames());

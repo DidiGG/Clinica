@@ -2,10 +2,7 @@ package co.edu.uniquindio.clinica.entidades;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +18,9 @@ public class Eps implements Serializable {
     private List<Profile> pacientes;
 
     @Id
-    @Column(name = "id_eps",length = 15)
-    private String id_eps;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @Column(name = "nombre", unique = true, length = 15)
     private String nombre;
@@ -32,11 +30,11 @@ public class Eps implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Eps eps = (Eps) o;
-        return Objects.equals(id_eps, eps.id_eps);
+        return Objects.equals(id, eps.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_eps);
+        return Objects.hash(id);
     }
 }

@@ -29,8 +29,10 @@ public class UserRegisterRequestDTO {
     private String lastNames;
     @NotNull
     private String phoneNumber;
+    @NotNull
+    private Integer eps;
     @Nullable
-    private LocalDate birth;
+    private Integer[] allergies;
     @Nullable
     private String consultingRoom;
 

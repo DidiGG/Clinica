@@ -17,8 +17,9 @@ public class Alergia implements Serializable {
 
 
     @Id
-    @Column(name = "id_alergia", length = 15)
-    private int id_alergia;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @Column(name = "nombre_alergia", length = 30)
     private String nombre_alergia;
@@ -28,12 +29,12 @@ public class Alergia implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Alergia alergia = (Alergia) o;
-        return Objects.equals(id_alergia, alergia.id_alergia);
+        return Objects.equals(id, alergia.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_alergia);
+        return Objects.hash(id);
     }
     @ManyToMany(mappedBy = "alergiaList")
     private List<Profile> pacientesList;
